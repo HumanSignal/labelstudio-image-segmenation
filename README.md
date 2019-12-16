@@ -1,7 +1,9 @@
 # labelstudio-image-segmenation
 Image segmentation model for Label Studio
 
-### Predict request example:
+### Predict API
+POST */predict*
+##### Request:
 ```json
 {
   "tasks": [{
@@ -20,11 +22,11 @@ Image segmentation model for Label Studio
 }
 ```
 
-### Predict response example:
+##### Response:
 ```json
 {
   "results": [{
-    "result": {
+    "result": [{
       "from_name": "segmentation",
       "to_name": "image",
       "type": "polygonlabels",
@@ -33,7 +35,7 @@ Image segmentation model for Label Studio
         "points": [[10,20], [30,40], [50,60]],
         "score": 0.95
       }
-    },
+    }],
     "score": 0.95,
     "neighbors": [1234, 3456, 5678],
     "encodings": [0.1, 0.2, 0.3, 0.4],
