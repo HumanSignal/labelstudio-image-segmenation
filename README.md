@@ -2,14 +2,16 @@
 Image segmentation model for Label Studio
 
 ### Predict API
+
 POST */predict*
+
 ##### Request:
 ```json
 {
   "tasks": [{
-    "data": {"image_url": "http://s3.amazonaws.com/heartex-private/cats_n_dogs/training_set/dogs/dog.1753.jpg",
-    "id": "1234"
-  }}],
+    "data": {"image_url": "http://s3.amazonaws.com/heartex-private/cats_n_dogs/training_set/dogs/dog.1753.jpg"},
+    "id": 1234
+  }],
   "project": "123.1234567890",
   "schema": {
     "output_names": ["segmentation"],
@@ -33,7 +35,7 @@ POST */predict*
       "value": {
         "polygonlabels": ["Dog"],
         "points": [[10,20], [30,40], [50,60]],
-        "score": 0.95
+        "score": 0.8
       }
     }],
     "score": 0.95,
@@ -43,3 +45,44 @@ POST */predict*
   }]
 }
 ```
+
+### Train API
+
+POST /update
+
+##### Request
+```json
+{
+    "id": 1234,
+    "project": "123.1234567890",
+    "schema": {
+      "output_names": ["segmentation"],
+      "input_names": ["image"],
+      "input_values": ["image_url"],
+      "input_types": ["Image"]
+    },
+    "data": {"image_url": "http://s3.amazonaws.com/heartex-private/cats_n_dogs/training_set/dogs/dog.1753.jpg"},
+    "meta": {"image_url": "optional alternative resource replacing image_url in data field"},
+    "result": [{
+      "from_name": "segmentation",
+      "to_name": "image",
+      "type": "polygonlabels",
+      "value": {
+        "polygonlabels": ["Dog"],
+        "points": [[10,20], [30,40], [50,60]]
+      }
+    }],
+    "retrain": true,
+    "params": {
+        "some train param": 1
+    }
+}
+```
+
+##### Response
+```json
+{
+  "job": "training job ID"
+}
+```
+
